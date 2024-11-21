@@ -23,6 +23,7 @@
 	</developers>
     <modules>
         <module>product</module>
+        <module>order</module>
     </modules>
     <scm>
 		<connection/>

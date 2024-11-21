@@ -1,11 +1,11 @@
-package com.zoro.product;
+package com.zoro.order;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class Product {
+public class OrderApplication {
     public static void main(String[] args) {
-        SpringApplication.run(Product.class, args);
+        SpringApplication.run(OrderApplication.class, args);
     }
 }

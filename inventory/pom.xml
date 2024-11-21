@@ -9,10 +9,10 @@
         <version>0.0.1-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
-    <artifactId>order</artifactId>
+    <artifactId>inventory</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>order</name>
-    <description>AEA Order</description>
+    <description>AEA Inventory</description>
 
     <properties>
         <maven.compiler.source>21</maven.compiler.source>

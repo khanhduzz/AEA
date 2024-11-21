@@ -24,7 +24,8 @@
     <modules>
         <module>product</module>
         <module>order</module>
-    </modules>
+		<module>inventory</module>
+	</modules>
     <scm>
 		<connection/>
 		<developerConnection/>

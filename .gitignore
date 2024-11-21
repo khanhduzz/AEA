@@ -34,4 +34,4 @@ build/
 
 ### Docker mount ###
 data/
-order/mysql/
+mysql/

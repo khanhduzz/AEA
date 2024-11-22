@@ -1,2 +1,9 @@
+
 CREATE DATABASE IF NOT EXISTS `orders`;
+
 CREATE DATABASE IF NOT EXISTS `inventories`;
+
+CREATE DATABASE IF NOT EXISTS keycloak;
+CREATE USER 'keycloak'@'%' IDENTIFIED BY 'password';
+GRANT ALL PRIVILEGES ON keycloak.* TO 'keycloak'@'%';
+FLUSH PRIVILEGES;

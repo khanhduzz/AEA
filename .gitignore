@@ -36,4 +36,3 @@ build/
 data/
 mysql/
 mongodb/
-docker/

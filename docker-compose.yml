@@ -40,7 +40,7 @@ services:
     ports:
       - "8181:8080"
     volumes:
-      - ./docker/keycloak/realms:/opt/keycloak/data/import/
+      - ./docker/keycloak/realm-export.json:/opt/keycloak/data/import/realm-export.json
     networks:
       - aea-network
 

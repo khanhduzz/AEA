@@ -25,7 +25,8 @@
         <module>product</module>
         <module>order</module>
 		<module>inventory</module>
-	</modules>
+        <module>api-gateway</module>
+    </modules>
     <scm>
 		<connection/>
 		<developerConnection/>

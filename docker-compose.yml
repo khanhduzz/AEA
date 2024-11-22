@@ -10,3 +10,22 @@ services:
     volumes:
       - ./mysql:/var/lib/mysql
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - aea-network
+  mongodb:
+    image: mongo:7.0.5
+    container_name: product-mongodb
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: password
+      MONGO_INITDB_ROOT_DATABASE: product
+    volumes:
+      - ./mongodb:/data/db
+    networks:
+      - aea-network
+
+networks:
+  aea-network:
+    driver: bridge

@@ -35,3 +35,4 @@ build/
 ### Docker mount ###
 data/
 mysql/
+mongodb/

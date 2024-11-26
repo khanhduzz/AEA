@@ -1,7 +1,6 @@
 package com.zoro.apigateway.routes;
 
 import org.springframework.cloud.gateway.server.mvc.filter.CircuitBreakerFilterFunctions;
-import org.springframework.cloud.gateway.server.mvc.handler.GatewayRouterFunctions;
 import org.springframework.cloud.gateway.server.mvc.handler.HandlerFunctions;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -87,6 +86,16 @@ public class Routes {
                 .GET("/fallbackRoute", request ->
                         ServerResponse.status(HttpStatus.SERVICE_UNAVAILABLE)
                         .body("Service unavailable!"))
+                .build();
+    }
+
+    @Bean
+    public RouterFunction<ServerResponse> storeServiceRoute() {
+        return route("store")
+                .route(RequestPredicates.path("/**"),
+                        HandlerFunctions.http("http://localhost:3000"))
+                .filter(CircuitBreakerFilterFunctions.circuitBreaker("storeServiceSwaggerCircuitBreaker",
+                        URI.create("forward:/fallbackRoute")))
                 .build();
     }
 }

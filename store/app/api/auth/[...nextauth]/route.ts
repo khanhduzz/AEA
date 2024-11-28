@@ -10,7 +10,7 @@ function requestRefreshOfAccessToken(token: JWT) {
       client_id: process.env.KEYCLOAK_CLIENT_ID,
       client_secret: process.env.KEYCLOAK_CLIENT_SECRET,
       grant_type: "refresh_token",
-      refresh_token: String(token.refreshToken!),
+      refresh_token: token.refresh_token!,
     }),
     method: "POST",
     cache: "no-store"
@@ -32,9 +32,9 @@ export const authOptions: AuthOptions = {
     async jwt({ token, account }) {
       if (account) {
         token.idToken = account.id_token
-        token.accessToken = account.access_token
-        token.refreshToken = account.refresh_token
-        token.expiresAt = account.expires_at
+        token.access_token = account.access_token!
+        token.refresh_token = account.refresh_token!
+        token.expires_at = account.expires_at!
         return token
       }
       if (Date.now() < (Number(token.expiresAt)! * 1000 - 60 * 1000)) {
@@ -42,7 +42,7 @@ export const authOptions: AuthOptions = {
       } else {
         try {
           const response = await requestRefreshOfAccessToken(token)
-
+          
           const tokens: TokenSet = await response.json()
 
           if (!response.ok) throw tokens
@@ -50,9 +50,9 @@ export const authOptions: AuthOptions = {
           const updatedToken: JWT = {
             ...token,
             idToken: tokens.id_token,
-            accessToken: tokens.access_token,
-            expiresAt: Math.floor(Date.now() / 1000 + (tokens.expires_in as number)),
-            refreshToken: tokens.refresh_token ?? token.refreshToken,
+            access_token: tokens.access_token || '',
+            expires_at: Math.floor(Date.now() / 1000 + (tokens.expires_in as number)),
+            refresh_token: tokens.refresh_token ?? '',
           }
           return updatedToken
         } catch (error) {
@@ -60,6 +60,12 @@ export const authOptions: AuthOptions = {
           return { ...token, error: "RefreshAccessTokenError" }
         }
       }
+    },
+    async session({session, token}) {
+      if (token.access_token) {
+        session.access_token = token.access_token
+      }
+        return session;
     },
   }
 }

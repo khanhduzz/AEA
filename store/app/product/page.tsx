@@ -1,6 +1,8 @@
 import { getServerSession } from "next-auth";
 import { ProductResponse } from "./modules/product";
 import { authOptions } from "../api/auth/[...nextauth]/route";
+import ProductForm from "./components/ProductForm";
+
 
 export default async function Page() {
   const session = await getServerSession(authOptions)
@@ -16,12 +18,15 @@ export default async function Page() {
   return (
     <>
       {products.map((product) => (
-        <ul>
+        <ul key={product.id} className="pb-10">
           <li key={product.id}>{product.name}</li>
           <li>{product.description}</li>
           <li>{product.price}</li>
         </ul>
       ))}
+      <div className="mt-3 border border-lime-300">
+        <ProductForm accessToken={session?.access_token} />
+      </div>
     </>
   );
 }

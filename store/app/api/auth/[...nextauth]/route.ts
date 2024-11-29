@@ -16,7 +16,6 @@ function requestRefreshOfAccessToken(token: JWT) {
     cache: "no-store",
   });
 }
-console.log(process.env.KEYCLOAK_CLIENT_ID);
 
 export const authOptions: AuthOptions = {
   providers: [

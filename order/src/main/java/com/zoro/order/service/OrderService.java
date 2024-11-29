@@ -2,19 +2,24 @@ package com.zoro.order.service;
 
 import com.zoro.order.client.InventoryClient;
 import com.zoro.order.dto.OrderRequest;
+import com.zoro.order.event.OrderPlacedEvent;
 import com.zoro.order.model.Order;
 import com.zoro.order.repository.OrderRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class OrderService {
 
     private final OrderRepository orderRepository;
     private final InventoryClient inventoryClient;
+    private final KafkaTemplate<String, OrderPlacedEvent> kafkaTemplate;
 
     public void placeOrder(OrderRequest orderRequest) {
         var isProductInStock = inventoryClient.isInStock(orderRequest.skuCode(), orderRequest.quantity());
@@ -27,6 +32,10 @@ public class OrderService {
                     .quantity(orderRequest.quantity())
                     .build();
             orderRepository.save(order);
+            OrderPlacedEvent orderPlacedEvent = new OrderPlacedEvent(order.getOrderNumber(), "test@email");
+            log.info("Kakfa sending -------------------");
+            kafkaTemplate.send("order-placed", orderPlacedEvent);
+            log.info("Kafka sended......................");
         } else {
             throw new RuntimeException("Product with skuCode " + orderRequest.skuCode() + " is out of stock.");
         }

@@ -9,8 +9,10 @@ import com.zoro.order.repository.OrderRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
+
 
 import java.util.UUID;
 
@@ -35,10 +37,15 @@ public class OrderService {
                     .quantity(orderRequest.quantity())
                     .build();
             orderRepository.save(order);
-            OrderPlacedEvent orderPlacedEvent = new OrderPlacedEvent(order.getOrderNumber(), "test@email");
-            String orderJson = new ObjectMapper().writeValueAsString(orderPlacedEvent);
-            log.info("Kafka sending ------------------- {}", orderJson);
-            kafkaTemplate.send("order-placed", orderJson);
+            OrderPlacedEvent orderPlacedEvent = new OrderPlacedEvent();
+            orderPlacedEvent.setOrderNumber(order.getOrderNumber());
+            orderPlacedEvent.setEmail("test@mail.com");
+            orderPlacedEvent.setFirstName("test");
+            orderPlacedEvent.setLastName("mail");
+//            String orderJson = new ObjectMapper().writeValueAsString(orderPlacedEvent);
+            System.out.println("AAAAAAAAAAAAAAAAAAA " + orderPlacedEvent);
+            log.info("Kafka sending ------------------- {}", orderPlacedEvent);
+            kafkaTemplate.send("order-placed", String.valueOf(orderPlacedEvent));
             log.info("Kafka sended......................");
         } else {
             throw new RuntimeException("Product with skuCode " + orderRequest.skuCode() + " is out of stock.");

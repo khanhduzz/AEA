@@ -11,7 +11,7 @@
     </parent>
     <artifactId>inventory</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>order</name>
+    <name>inventory</name>
     <description>AEA Inventory</description>
 
     <properties>

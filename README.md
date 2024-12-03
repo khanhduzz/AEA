@@ -7,6 +7,10 @@ Small and simple project with Spring and NextJs
 - MySql
 - MongoDB
 - Keycloak
+- Flyway
+- Kafka
+- Java mail
 ## Structure
-![image](https://github.com/user-attachments/assets/5b29dca5-f57d-4854-816a-e26367a7da05)
+![image](https://github.com/user-attachments/assets/24080c84-237b-49de-b103-f990542be219)
+
 
